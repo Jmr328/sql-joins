@@ -1,0 +1,78 @@
+1. List all customers who live in Texas (use
+JOINs)
+
+SELECT customer_state
+FROM customer
+ON customer_state;
+
+
+2. Get all payments above $6.99 with the Customer's Full
+Name
+
+SELECT customer_id, first_name, last_name, amount
+FROM customer
+INNER JOIN order_
+HAVING sum(amount) > 6.99
+ON customer.customer_id = order_.customer_id;
+
+
+3. Show all customers names who have made payments over $175(use
+subqueries)
+
+SELECT customer_id, first_name, last_name, amount
+FROM customer
+WHERE customer_id in (
+    SELECT customer_id
+    FROM payment
+    GROUP BY customer_id
+    HAVING sum(amount) > 175
+);
+
+
+4. List all customers that live in Nepal (use the city
+table)
+
+SELECT customer.first_name, customer.last_name, customer.email, country
+FROM customer
+FULL JOIN address
+ON customer.address_id =address.address_id
+FULL JOIN city
+ON address.city_id = city.city_id
+WHERE city = 'Nepal';
+
+
+5. Which staff member had the most
+transactions?
+
+SELECT customer.first_name, customer.last_name, customer_id
+FROM order_
+INNER JOIN customer
+ON customer.customer_id = order_.customer_id
+
+
+6. How many movies of each rating are
+there?
+
+
+
+7.Show all customers who have made a single payment
+above $6.99 (Use Subqueries)
+
+SELECT customer_id, first_name, last_name, amount
+FROM customer
+WHERE customer_id in (
+    SELECT customer_id
+    FROM payment
+    GROUP BY customer_id
+    HAVING sum(amount) > 6.99
+
+
+8. How many free rentals did our stores give away?
+
+SELECT customer_id, first_name, last_name, amount
+FROM customer
+WHERE customer_id in (
+    SELECT customer_id
+    FROM payment
+    GROUP BY customer_id
+    HAVING sum(amount) =< 0
